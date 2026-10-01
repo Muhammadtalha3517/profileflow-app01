@@ -25,11 +25,10 @@ jobs:
           channel: 'stable'
           cache: true
 
-      - name: Configure Android SDK Path
+      - name: Auto-Generate Android Build Toolchain
         run: |
-          mkdir -p android
-          echo "flutter.sdk=$FLUTTER_ROOT" > android/local.properties
-          echo "sdk.dir=$ANDROID_HOME" >> android/local.properties
+          flutter create --platforms=android --org=com.profileflow .
+          sed -i 's/minSdkVersion .*/minSdkVersion 23/' android/app/build.gradle || true
 
       - name: Install Dependencies
         run: flutter pub get
